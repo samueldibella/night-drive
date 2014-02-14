@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//allows user input to change horizontal camera angle
 public class cameraScript : MonoBehaviour {
 	int rotateSpeed = 25;
-	void Update() {
-		CharacterController ctrl = GetComponent<CharacterController>();
+	
+	void Update() {	
 		//TODO impliment limited turning
 		if(Input.GetKey(KeyCode.LeftArrow)) {
 			transform.Rotate(0,rotateSpeed * -1 *  Time.deltaTime,0);
