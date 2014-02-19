@@ -9,3 +9,4 @@ public class roadDestructor : MonoBehaviour {
 	void Start () {
 		Transform.Destroy(this.gameObject,doomCounter);
 	}
+}

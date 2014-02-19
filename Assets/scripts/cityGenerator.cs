@@ -8,16 +8,20 @@ public class cityGenerator : MonoBehaviour {
 	public GameObject buildingPrefab;
 	public GameObject lampPrefab;
 	public GameObject gasStationPrefab;
+	
+	//vars for main function
 	float speed = 20f;
 	float distanceTravelled = 0f;
 	float zOffset = 200f;
 	float yOffset = 3.5f;
 	float xOffset = 2f;
 	
+	//vars for buildingRender
 	Vector3 lastPosition;
 	Vector3 renderPosition;
 	float renderX;
 	float renderZ;
+	Quaternion rotation;
 	
 	void Start()
 	{
@@ -31,8 +35,8 @@ public class cityGenerator : MonoBehaviour {
 		if(distanceTravelled > 100f) {
 			Instantiate(roadPrefab, new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z + zOffset), Quaternion.identity);
 			distanceTravelled = 0;
-			} else if ( (int) distanceTravelled % 20f == 0) {
-			buildingRender();
+		} else if ( (int) distanceTravelled % 20f == 0) {
+				buildingRender();
 		}
 
 	//moves driver forward, records new travel distance, and marks lastPosition again, for next iteration
@@ -46,6 +50,7 @@ public class cityGenerator : MonoBehaviour {
 	void buildingRender() {
 		int leftRight = Random.Range(0,2);
 		int random = Random.Range(0,10);
+		
 		if(leftRight == 0) {
 		//right side
 			renderX = Random.Range(30f, 60f);
@@ -57,12 +62,17 @@ public class cityGenerator : MonoBehaviour {
 		renderZ = Random.Range(80f, 120f);
 		renderPosition = new Vector3(transform.position.x + renderX, transform.position.y - 1f, transform.position.z + renderZ);
 		
+		//gives rendered object a random rotation around the y axis
+		float yRotation = Random.Range(0f, 180f);
+		rotation.eulerAngles = new Vector3 (0, yRotation, 0);
+		
+		//creates prefab according to percentage chance
 		if(random < 7) {
-			Instantiate(buildingPrefab, renderPosition , Quaternion.identity);
+			Instantiate(buildingPrefab, renderPosition , rotation);
 		} else if (random < 8) {
-			Instantiate(gasStationPrefab, renderPosition , Quaternion.identity);
+			Instantiate(gasStationPrefab, renderPosition , rotation);
 		} else {
-			Instantiate(circusPrefab, renderPosition , Quaternion.identity);
+			Instantiate(circusPrefab, renderPosition , rotation);
 		}
 	}
 }
